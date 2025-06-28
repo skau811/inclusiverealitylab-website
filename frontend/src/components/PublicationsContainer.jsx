@@ -1,6 +1,6 @@
-import PublicationListItem from "../components/PublicationListItem";
+import PublicationListItem from "./PublicationListItem";
 
-function PublicationContainer() {
+function PublicationContainer({publications}) {
   return (
     <>
       {" "}
@@ -15,7 +15,7 @@ function PublicationContainer() {
             <PublicationListItem />
           </div>
 
-          <p className="labelBold">view all publications</p>
+          <p className="labelBold self-end">view all publications</p>
         </div>
       </section>
     </>

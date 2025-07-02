@@ -10,6 +10,9 @@ import { motion } from "framer-motion";
 import Carousel from "../components/Carousel";
 import PublicationContainer from "../components/PublicationsContainer.jsx";
 
+import publications from "../data/publications.js";
+import PublicationSectionWrapper from "../components/wrappers/PublicationSectionWrapper.jsx";
+
 function LandingPage() {
   const marginRef = useRef();
   useCustomCentering(marginRef);
@@ -83,23 +86,25 @@ function LandingPage() {
           </p>
 
           {/* <section className="flex flex-col bg-background-white xl:justify-items-start items-start w-screen ">
-            <div className="flex flex-col justify-between items-start xl:items-center py-5 gap-4 xl:w-64.5 mx-auto border-2 bg-basewhite">
-              <h1 className="heading1 self-start ">Recent Publications </h1>
+            <div className="flex flex-col justify-between items-start xl:items-center  py-5 gap-4  w-full xl:max-w-[1032px]  mx-auto px-1.5">
+              <h1 className="heading1 self-start ">Recent Publications </h1> */}
+          <PublicationSectionWrapper headingContent="Recent Publications" >
+            <PublicationContainer publications={publications} />
 
-              <div className="flex xl:flex-col flex-row flex-wrap  xl:justify-between  items-start xl:items-center xl:gap-2 gap-x-1.5 gap-y-2.5 ">
+          {/* <div className="flex xl:flex-col flex-row flex-wrap  xl:justify-between  items-start xl:items-center xl:gap-2 gap-x-1.5 gap-y-2.5 ">
                
                 <PublicationListItem />
                 <PublicationListItem />
                 <PublicationListItem />
                 <PublicationListItem />
                 <PublicationListItem />
-              </div>
-              
-              <p className="labelBold">view all publications</p>
-            </div>
-          </section> */}
+              </div> */}
 
-          <PublicationContainer />
+            <p className="labelBold">view all publications</p>
+          {/* </div>  */}
+          </PublicationSectionWrapper >
+
+          {/* </section> */}
 
           <section className="flex flex-col mx-auto py-5 px-1.5 xl:max-w-64.5 gap-4">
             <h1 className="heading1">News</h1>

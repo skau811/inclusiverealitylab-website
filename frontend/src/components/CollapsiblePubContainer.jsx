@@ -4,7 +4,7 @@ import PublicationsContainer from "./PublicationsContainer";
 import up from "../assets/icons/up.svg";
 import down from "../assets/icons/down.svg";
 
-function CollapsiblePubContainer({ data,isExpandedContainer }) {
+function CollapsiblePubContainer({ data,isExpandedContainer ,children}) {
   const [isExpanded, setIsExpanded] = useState(isExpandedContainer);
 
   return (
@@ -21,7 +21,8 @@ function CollapsiblePubContainer({ data,isExpandedContainer }) {
             <img src={isExpanded ? up : down} />
           </button>
         </div>
-        {isExpanded && <PublicationsContainer publications={data.items} />}
+        {/* {isExpanded && <PublicationsContainer publications={data.items} />} */}
+        {isExpanded && children }
       </div>
     </>
   );

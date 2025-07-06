@@ -2,6 +2,7 @@ import { useState } from "react";
 import CollapsiblePubContainer from "../components/CollapsiblePubContainer";
 import PublicationSectionWrapper from "../components/wrappers/PublicationSectionWrapper";
 import publications from "../sampleData/publications";
+import PublicationsContainer from "../components/PublicationsContainer";
 
 function PublicationsPage() {
   // take the code outside the return so we know which ones and can initialise the states correctly
@@ -13,10 +14,12 @@ function PublicationsPage() {
     });
 
   const handleExpansion = (i) => {
-    if(i===0){
+    if (i === 0) {
       return true;
     }
-  }
+  };
+
+  const maxVisible = 20;
 
   return (
     <>
@@ -26,7 +29,12 @@ function PublicationsPage() {
             key={year}
             data={{ year, items }}
             isExpandedContainer={handleExpansion(index)} // this will soon be a calling a function to decide which gets opened or not
-          />
+          >
+            <PublicationsContainer
+              publications={items}
+              maxItems={maxVisible}
+            />
+          </CollapsiblePubContainer>
         ))}
       </PublicationSectionWrapper>
     </>

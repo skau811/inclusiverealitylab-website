@@ -12,7 +12,11 @@ function PublicationsPage() {
       return { year, items };
     });
 
-  
+  const handleExpansion = (i) => {
+    if(i===0){
+      return true;
+    }
+  }
 
   return (
     <>
@@ -21,7 +25,7 @@ function PublicationsPage() {
           <CollapsiblePubContainer
             key={year}
             data={{ year, items }}
-            isExpandedContainer={index == 0} // this will soon be a calling a function to decide which gets opened or not
+            isExpandedContainer={handleExpansion(index)} // this will soon be a calling a function to decide which gets opened or not
           />
         ))}
       </PublicationSectionWrapper>

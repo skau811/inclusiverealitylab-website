@@ -37,63 +37,60 @@ function PublicationsPage() {
   };
 
   const [openYears, setOpenYears] = useState([allSortedYears[0]]);
-  let totalVisible;
+
+  const [visibleCountByYear, setVisibleCountByYear] = useState({});
+
+  // let totalVisible;
 
   useEffect(() => {
-    totalVisible = Object.values(itemsCountByYear).reduce(
+    let totalVisible = Object.values(visibleCountByYear).reduce(
       (sum, current) => sum + current,
       0
     );
-    console.log(totalVisible);
 
     let lastOpenYear = openYears[openYears.length - 1];
     let lastOpenYearIndex = allSortedYears.findIndex(
-      (year) => year == lastOpenYear
+      (year) => year === lastOpenYear
     );
+
     let updatedOpenYears = [...openYears];
+    let updatedVisibleCountByYear = { ...visibleCountByYear };
 
     while (
       totalVisible < maxVisible &&
       lastOpenYearIndex + 1 < allSortedYears.length
     ) {
-      let nextYearToOpen = allSortedYears[lastOpenYearIndex + 1];
-      const nextCount = itemsCountByYear[nextYearToOpen];
+      const nextYearToOpen = allSortedYears[lastOpenYearIndex + 1];
+      const rawNextCount = itemsCountByYear[nextYearToOpen];
 
-      if (nextCount === undefined) {
-        // Don't open this one yet — wait for its container to mount
-        if (!updatedOpenYears.includes(nextYearToOpen)) {
-          updatedOpenYears.push(nextYearToOpen);
-        }
-        break;
-        break;
-      }
-      if (!updatedOpenYears.includes(nextYearToOpen)) {
-        updatedOpenYears.push(nextYearToOpen);
+      // If we don't yet know how many items are in this container, wait!
+      if (rawNextCount === undefined) break;
 
-        // setOpenYears((prev) => [...prev, nextYearToOpen]);
-        // console.log(
-        //   `OPENING NEXT YEAR: ${nextYearToOpen}, pls be a booleam : ${openYears.includes(
-        //     nextYearToOpen
-        //   )} `
-        // );
-      }
-      lastOpenYearIndex += 1;
-      totalVisible += itemsCountByYear[nextYearToOpen];
+      const needed = maxVisible - totalVisible;
+      const nextCount = Math.min(needed, rawNextCount);
+
+      updatedVisibleCountByYear[nextYearToOpen] = nextCount;
+      updatedOpenYears.push(nextYearToOpen);
+
+      totalVisible += nextCount;
+      lastOpenYearIndex++;
     }
 
-    // Only update if there was any meaningful change
+    setVisibleCountByYear(updatedVisibleCountByYear);
+
+    // Only update if changed
     if (
       updatedOpenYears.length !== openYears.length ||
       !updatedOpenYears.every((year, i) => year === openYears[i])
     ) {
       setOpenYears(updatedOpenYears);
     }
-  }, [itemsCountByYear]);
+  }, [ itemsCountByYear]);
 
   return (
     <>
       <PublicationSectionWrapper headingContent="Publications">
-        <h3 className="heading3">Total rendered:{totalVisible} </h3>
+        <h3 className="heading3">Total rendered:{} </h3>
         {yearlyPublications.map(({ year, items }, index) => (
           <CollapsiblePubContainer
             key={year}
@@ -102,7 +99,7 @@ function PublicationsPage() {
           >
             <PublicationsContainer
               publications={items}
-              maxItems={maxVisible}
+              maxItems={visibleCountByYear[year] ?? maxVisible}
               year={year}
               onRenderCount={handleRenderCountChange}
             />

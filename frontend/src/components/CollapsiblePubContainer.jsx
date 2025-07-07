@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PublicationsContainer from "./PublicationsContainer";
 
 import up from "../assets/icons/up.svg";
@@ -6,6 +6,10 @@ import down from "../assets/icons/down.svg";
 
 function CollapsiblePubContainer({ data,isExpandedContainer ,children}) {
   const [isExpanded, setIsExpanded] = useState(isExpandedContainer);
+
+  useEffect(()=>{
+    setIsExpanded(isExpandedContainer);
+  },[isExpandedContainer])
 
   return (
     <>

@@ -1,9 +1,18 @@
 import PublicationListItem from "./PublicationListItem";
 import { useEffect } from "react";
 
-function PublicationsContainer({ publications,maxItems }) {
-  const visibleItems = publications.slice(0,maxItems);
-  useEffect(() => {});
+function PublicationsContainer({
+  publications,
+  maxItems,
+  onRenderCount,
+  year,
+}) {
+  const visibleItems = publications.slice(0, maxItems);
+  useEffect(() => {
+    if (typeof onRenderCount === "function") {
+      onRenderCount({ year, count: visibleItems.length });
+    }
+  }, [year, visibleItems.length]);
 
   return (
     <>

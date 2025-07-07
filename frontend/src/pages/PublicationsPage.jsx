@@ -37,30 +37,63 @@ function PublicationsPage() {
   };
 
   const [openYears, setOpenYears] = useState([allSortedYears[0]]);
+  let totalVisible;
 
   useEffect(() => {
-    const totalVisible = Object.values(itemsCountByYear).reduce(
+    totalVisible = Object.values(itemsCountByYear).reduce(
       (sum, current) => sum + current,
       0
     );
     console.log(totalVisible);
-    if (totalVisible < maxVisible) {
-      const lastOpenYear = openYears[openYears.length - 1];
-      const lastOpenYearIndex = allSortedYears.findIndex(
-        (year) => year == lastOpenYear
-      );
-      const nextYearToOpen = allSortedYears[lastOpenYearIndex + 1];
-      if (!openYears.includes(nextYearToOpen)) {
-       
-        setOpenYears((prev) => [...prev, nextYearToOpen]);
-        console.log(`OPENING NEXT YEAR: ${nextYearToOpen}, pls be a booleam : ${openYears.includes(nextYearToOpen)} `);
+
+    let lastOpenYear = openYears[openYears.length - 1];
+    let lastOpenYearIndex = allSortedYears.findIndex(
+      (year) => year == lastOpenYear
+    );
+    let updatedOpenYears = [...openYears];
+
+    while (
+      totalVisible < maxVisible &&
+      lastOpenYearIndex + 1 < allSortedYears.length
+    ) {
+      let nextYearToOpen = allSortedYears[lastOpenYearIndex + 1];
+      const nextCount = itemsCountByYear[nextYearToOpen];
+
+      if (nextCount === undefined) {
+        // Don't open this one yet — wait for its container to mount
+        if (!updatedOpenYears.includes(nextYearToOpen)) {
+          updatedOpenYears.push(nextYearToOpen);
+        }
+        break;
+        break;
       }
+      if (!updatedOpenYears.includes(nextYearToOpen)) {
+        updatedOpenYears.push(nextYearToOpen);
+
+        // setOpenYears((prev) => [...prev, nextYearToOpen]);
+        // console.log(
+        //   `OPENING NEXT YEAR: ${nextYearToOpen}, pls be a booleam : ${openYears.includes(
+        //     nextYearToOpen
+        //   )} `
+        // );
+      }
+      lastOpenYearIndex += 1;
+      totalVisible += itemsCountByYear[nextYearToOpen];
+    }
+
+    // Only update if there was any meaningful change
+    if (
+      updatedOpenYears.length !== openYears.length ||
+      !updatedOpenYears.every((year, i) => year === openYears[i])
+    ) {
+      setOpenYears(updatedOpenYears);
     }
   }, [itemsCountByYear]);
 
   return (
     <>
       <PublicationSectionWrapper headingContent="Publications">
+        <h3 className="heading3">Total rendered:{totalVisible} </h3>
         {yearlyPublications.map(({ year, items }, index) => (
           <CollapsiblePubContainer
             key={year}

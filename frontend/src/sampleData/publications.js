@@ -59,6 +59,12 @@ const publications = [
     year: 2018,
     conference: "NeurIPS '18",
   },
+  {
+    id: 11,
+    title: "second pub of 2024",
+    year: 2024,
+    conference: "NeurIPS '24",
+  },
 ];
 
 export default publications;

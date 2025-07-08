@@ -17,8 +17,7 @@ const CollapsiblePubContainer = forwardRef(
       <>
         <div
           className="flex flex-col w-full gap-1.5 min-h-[200px]"
-          ref={ref}
-          data-year={data.year}
+          
         >
           <div className="flex flex-row w-full justify-between items-center py-0.5">
             <h2 className="heading4 ">{data.year}</h2>

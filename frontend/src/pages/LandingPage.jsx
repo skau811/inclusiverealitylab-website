@@ -37,7 +37,7 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className="w-screen h-auto bg-[url(/gradientImage.png)] bg-cover bg-no-repeat border-2">
+        <div className="w-screen h-auto bg-[url(/background_desktop.svg)] bg-cover bg-no-repeat border-2">
           {/* for the gradient background */}
 
           <div className="flex flex-col justify-between items-center xl:my-8 xl:py-0 py-8 mx-1.5 gap-1.5 xl:max-w-64.5 xl:mx-auto border-2 ">
@@ -85,7 +85,7 @@ function LandingPage() {
           </p>
 
           <PublicationSectionWrapper headingContent="Recent Publications">
-            <PublicationContainer publications={publications} />
+            <PublicationContainer publications={publications.slice(0,4)} />
             <p className="labelBold">view all publications</p>
           </PublicationSectionWrapper>
 
